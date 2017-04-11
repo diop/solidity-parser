@@ -155,21 +155,21 @@ Comment "comment"
   / SingleLineComment
 
 MultiLineComment
-  = "/*" chars:(!"*/" SourceCharacter)* "*/" {
+  = "/*" chars:(!"*/" SourceCharacter { return text() })* "*/" {
       var comment = {type: "Block", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
     }
 
 MultiLineCommentNoLineTerminator
-  = "/*" chars:(!("*/" / LineTerminator) SourceCharacter)* "*/" {
+  = "/*" chars:(!("*/" / LineTerminator) SourceCharacter { return text() })* "*/" {
       var comment = {type: "Block", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
     }
 
 SingleLineComment
-  = "//" chars:(!LineTerminator SourceCharacter)* {
+  = "//" chars:(!LineTerminator SourceCharacter { return text() })* {
       var comment = {type: "Line", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
