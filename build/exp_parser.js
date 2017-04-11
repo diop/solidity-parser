@@ -138,8 +138,8 @@ function peg$parse(input, options) {
 
   var peg$FAILED = {},
 
-      peg$startRuleFunctions = { Start: peg$parseStart },
-      peg$startRuleFunction  = peg$parseStart,
+      peg$startRuleFunctions = { FreeStanding: peg$parseFreeStanding },
+      peg$startRuleFunction  = peg$parseFreeStanding,
 
       peg$c0 = function(program) {
             program.comments = comments;

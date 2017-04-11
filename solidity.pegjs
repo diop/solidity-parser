@@ -124,6 +124,11 @@ Start
       return program;
     }
 
+FreeStanding
+  = __ node:(SourceUnit / SourceElement / Statement / Expression) __ {
+      return node;
+    }
+
 /* ----- A.1 Lexical Grammar ----- */
 
 SourceCharacter
