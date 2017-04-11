@@ -153,22 +153,22 @@ Comment "comment"
   / SingleLineComment
 
 MultiLineComment
-  = "/*" value:(!"*/" SourceCharacter)* "*/" {
-      var comment = {type: "Block", value: value, loc: location()};
+  = "/*" chars:(!"*/" SourceCharacter)* "*/" {
+      var comment = {type: "Block", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
     }
 
 MultiLineCommentNoLineTerminator
-  = "/*" value:(!("*/" / LineTerminator) SourceCharacter)* "*/" {
-      var comment = {type: "Block", value: value, loc: location()};
+  = "/*" chars:(!("*/" / LineTerminator) SourceCharacter)* "*/" {
+      var comment = {type: "Block", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
     }
 
 SingleLineComment
-  = "//" value:(!LineTerminator SourceCharacter)* {
-      var comment = {type: "Line", value: value, loc: location()};
+  = "//" chars:(!LineTerminator SourceCharacter)* {
+      var comment = {type: "Line", value: chars.join(""), loc: location()};
       comments.push(comment);
       return comment;
     }
