@@ -154,21 +154,21 @@ Comment "comment"
 
 MultiLineComment
   = "/*" value:(!"*/" SourceCharacter)* "*/" {
-      var comment = {value: value};
+      var comment = {type: "Block", value: value, loc: location()};
       comments.push(comment);
       return comment;
     }
 
 MultiLineCommentNoLineTerminator
   = "/*" value:(!("*/" / LineTerminator) SourceCharacter)* "*/" {
-      var comment = {value: value};
+      var comment = {type: "Block", value: value, loc: location()};
       comments.push(comment);
       return comment;
     }
 
 SingleLineComment
   = "//" value:(!LineTerminator SourceCharacter)* {
-      var comment = {value: value};
+      var comment = {type: "Line", value: value, loc: location()};
       comments.push(comment);
       return comment;
     }
