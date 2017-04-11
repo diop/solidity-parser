@@ -574,12 +574,12 @@ MemberExpression
   = head:(
         PrimaryExpression
       / NewToken __ callee:Type __ args:Arguments {
-          return { type: "NewExpression", callee: callee, arguments: args, start: location().start.offset, end: location().end.offset };
+          return { type: "NewExpression", callee: callee, arguments: args, loc: location() };
         }
     )
     tail:(
         __ "[" __ property:Expression __ "]" {
-          return { property: property, computed: true, start: location().start.offset, end: location().end.offset };
+          return { property: property, computed: true, loc: location() };
         }
       / __ "." __ property:IdentifierName {
           return { property: property, computed: false, loc: location() };
