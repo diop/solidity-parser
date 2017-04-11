@@ -40,6 +40,8 @@
     MemberExpression: "object",
   };
 
+  var comments = []
+
   function filledArray(count, value) {
     var result = new Array(count), i;
 
@@ -119,7 +121,10 @@
 }
 
 Start
-  = __ program:Program __ { return program; }
+  = __ program:Program __ {
+      program.comments = comments;
+      return program;
+    }
 
 /* ----- A.1 Lexical Grammar ----- */
 
@@ -150,13 +155,25 @@ Comment "comment"
   / SingleLineComment
 
 MultiLineComment
-  = "/*" (!"*/" SourceCharacter)* "*/"
+  = "/*" value:(!"*/" SourceCharacter)* "*/" {
+      var comment = {value: value};
+      comments.push(comment);
+      return comment;
+    }
 
 MultiLineCommentNoLineTerminator
-  = "/*" (!("*/" / LineTerminator) SourceCharacter)* "*/"
+  = "/*" value:(!("*/" / LineTerminator) SourceCharacter)* "*/" {
+      var comment = {value: value};
+      comments.push(comment);
+      return comment;
+    }
 
 SingleLineComment
-  = "//" (!LineTerminator SourceCharacter)*
+  = "//" value:(!LineTerminator SourceCharacter)* {
+      var comment = {value: value};
+      comments.push(comment);
+      return comment;
+    }
 
 Identifier
   = !ReservedWord name:IdentifierName { return name; }
