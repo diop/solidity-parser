@@ -1336,7 +1336,7 @@ FunctionName
     return {
       type: "FunctionName",
       name: id != null ? id.name : null,
-      params: params != null ? params[2] : [],
+      params: optionalList(params[2]),
       loc: location()
     };
   }
@@ -1347,7 +1347,7 @@ ModifierName
     return {
       type: "ModifierName",
       name: id != null ? id.name : null,
-      params: params != null ? params[2] : [],
+      params: optionalList(params && params[2]),
       loc: location()
     };
   }
@@ -1358,7 +1358,7 @@ ModifierArgument
     return {
       type: "ModifierArgument",
       name: id != null ? id.name : null,
-      params: params != null ? params[2] : [],
+      params: optionalList(params && params[2]),
       loc: location()
     };
   }
