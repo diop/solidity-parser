@@ -1003,13 +1003,15 @@ VariableDeclarationTuple
     }
 
 VariableDeclarationNoInit
-  = id:Identifier {
-      return {
-        type: "VariableDeclarator",
-        id: id.constructor === Array ? id [1] : id,
-        init: null,
-        loc: location()
-      };
+  = id:Identifier? {
+      if (id) {
+        return {
+          type: "VariableDeclarator",
+          id: id.constructor === Array ? id [1] : id,
+          init: null,
+          loc: location()
+        };
+      }
     }
 
 

@@ -754,12 +754,14 @@ function peg$parse(input, options) {
             }
           },
       peg$c381 = function(id) {
-            return {
-              type: "VariableDeclarator",
-              id: id.constructor === Array ? id [1] : id,
-              init: null,
-              loc: location()
-            };
+            if (id) {
+              return {
+                type: "VariableDeclarator",
+                id: id.constructor === Array ? id [1] : id,
+                init: null,
+                loc: location()
+              };
+            }
           },
       peg$c382 = function(id, init) {
             return {
@@ -9856,6 +9858,9 @@ function peg$parse(input, options) {
 
     s0 = peg$currPos;
     s1 = peg$parseIdentifier();
+    if (s1 === peg$FAILED) {
+      s1 = null;
+    }
     if (s1 !== peg$FAILED) {
       peg$savedPos = s0;
       s1 = peg$c381(s1);
