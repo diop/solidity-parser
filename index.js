@@ -30,19 +30,32 @@ module.exports = {
 
     var parser = this.getParser(parser_name, rebuild);
 
-    var result;
-    try {
-      result = parser.parse(source);
-    } catch (e) {
-      if (e instanceof parser.SyntaxError) {
-        e.message += " Line: " + e.location.start.line + ", Column: " + e.location.start.column;
-      }
-      throw e;
-    }
+    var result = parser.parse(source);
 
     return result;
   },
   parseFile: function(file, parser_name, rebuild) {
-    return this.parse(fs.readFileSync(path.resolve(file), {encoding: "utf8"}), parser_name, rebuild);
+    if (typeof parser_name == "boolean") {
+      rebuild = parser_name;
+      parser_name = null;
+    }
+
+    if (parser_name == null) {
+      parser_name = "solidity";
+    }
+
+    try {
+      var source = fs.readFileSync(path.resolve(file), {encoding: "utf8"})
+      return this.parse(source, parser_name, rebuild);
+    } catch (e) {
+      var parser = this.getParser(parser_name, false);
+
+      if (e instanceof parser.SyntaxError) {
+        const message = `${e.message} (${file}:${e.location.start.line}:${e.location.start.column})`;
+        throw new parser.SyntaxError(message, e.expected, e.found, e.location)
+      } else {
+        throw e;
+      }
+    }
   }
 };
